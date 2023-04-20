@@ -1,73 +1,45 @@
-import { useState } from "react";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { collection, addDoc } from "firebase/firestore";
+import React, { useState } from 'react'
+import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage'
 
-import { getFirestore } from "firebase/firestore";
-import { app } from "../firebase/firebase";
+interface ImageUploaderProps {
+  handleFileSelect: (file: File) => void;
+}
 
-type ImageType = {
-  url: string;
-  name: string;
-};
+const ImageUploader: React.FC<ImageUploaderProps> = ({ handleFileSelect }) => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string>('');
 
-const ImageUploader = () => {
-  const [images, setImages] = useState<ImageType[]>([]);
-  const [uploading, setUploading] = useState(false);
+  const storage = getStorage();
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      setUploading(true);
-      const promises: Promise<ImageType>[] = [];
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const storageRef = ref(getStorage(app), `images/${file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
-        const promise = new Promise<ImageType>((resolve, reject) => {
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => { },
-            (error) => reject(error),
-            async () => {
-              const url = await getDownloadURL(storageRef);
-              resolve({ url, name: file.name });
-            }
-          );
-        });
-        promises.push(promise);
-      }
-      try {
-        const uploadedImages = await Promise.all(promises);
-        setImages([...images, ...uploadedImages]);
-        setUploading(false);
-      } catch (error) {
-        console.error(error);
-      }
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      handleFileSelect(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = async () => {
-    try {
-      const db = getFirestore(app);
-      const imagesRef = collection(db, "images");
-      const promises = images.map(({ url, name }) =>
-        addDoc(imagesRef, { url, name })
-      );
-      await Promise.all(promises);
-      setImages([]);
-    } catch (error) {
-      console.error(error);
+  const handleUpload = async () => {
+    if (selectedFile) {
+      const storageRef = ref(storage, `images/${selectedFile.name}`);
+      await uploadBytes(storageRef, selectedFile);
+      const imageURL = await getDownloadURL(storageRef);
+      console.log(imageURL);
+      setPreview('');
+      setSelectedFile(null);
     }
   };
 
   return (
     <div>
-      <input type="file" multiple onChange={handleUpload} />
-      {uploading && <p>Загрузка...</p>}
-      {images.map((image) => (
-        <img key={image.name} src={image.url} alt={image.name} />
-      ))}
-      {images.length > 0 && <button onClick={handleSubmit}>Сохранить</button>}
+      {preview && <img src={preview} alt="Preview" />}
+      <input type="file" accept="image/*" onChange={handleFileInput} />
+      <button onClick={handleUpload}>Upload</button>
     </div>
   );
 };
