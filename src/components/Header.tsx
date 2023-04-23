@@ -46,7 +46,7 @@ const Header = () => {
         <header className={styles.header}>
             <div className={styles.header__content}>
                 <Link to="/" className={styles.header__content__logo}>
-                    Ринг + Татамі
+                    Додаток
                 </Link>
                 <nav
                     className={`${styles.header__content__nav} ${menuOpen && size.width < 768 ? styles.isMenu : ""

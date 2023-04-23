@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import '../../styles/Signin.scss'
 
-import { Link, useNavigate } from 'react-router-dom';
 import { useSigninCheck } from 'reactfire';
 import { UserAuth } from '../../firebase/authContext';
 import Logout from './Logout';
@@ -11,18 +10,15 @@ import Account from './Account';
 const Signin: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState('');
   const { signIn } = UserAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('')
     try {
       await signIn(email, password)
       setEmail('')
       setPassword('')
     } catch (error: any) {
-      setError(error.message)
     }
   };
 

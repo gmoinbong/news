@@ -19,6 +19,7 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  flex-direction: column;
 }
 
 .newsItem {
@@ -41,4 +42,11 @@
   max-width: 100%;
   height: auto;
   border-radius: 5px;
+}
+
+@media (min-width: 768px) {
+  .postImage {
+    max-width: 320px !important;
+    width: 100%;
+  }
 }

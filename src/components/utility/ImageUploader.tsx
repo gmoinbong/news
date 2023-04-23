@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage'
 
 interface ImageUploaderProps {
-  handleFileSelect: (file: File) => void;
+  handleFileSelect: (file: File[]) => void;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({ handleFileSelect }) => {
@@ -15,7 +15,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ handleFileSelect }) => {
     const file = e.target.files && e.target.files[0];
     if (file) {
       setSelectedFile(file);
-      handleFileSelect(file);
+      handleFileSelect([file]);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result as string);

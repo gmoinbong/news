@@ -1,12 +1,12 @@
-import React, { useState, useEffect, ReactEventHandler } from 'react'
+import React, { useState, useEffect } from 'react'
 import { collection, addDoc, serverTimestamp, getDocs, doc, deleteDoc, orderBy, query } from 'firebase/firestore'
 import { app, db, } from '../firebase/firebase'
 import EditTodo from './EditNews'
 import Signin from '../components/auth/Signin'
 
 import style from '../styles/NewsPage.module.scss'
-import ImageUploader from '../components/ImageUploader'
-import { getDownloadURL, getStorage, ref, uploadBytes, } from 'firebase/storage';
+import ImageUploader from '../components/utility/ImageUploader'
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { useSigninCheck } from 'reactfire'
 
 interface NewsItem {
@@ -22,45 +22,51 @@ const storage = getStorage(app);
 
 
 const NewsPage: React.FC = () => {
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [selectedFileURL, setSelectedFileURL] = useState<string>('');
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const [selectedFilesURL, setSelectedFilesURL] = useState<string[]>([]);
     const [createNews, setCreateNews] = useState<string>('');
     const [news, setNews] = useState<NewsItem[]>([]);
-    const [image, setImage] = useState<File | null>(null);
+
     const { status, data: signInCheckResult } = useSigninCheck();
+
+    const handleFileSelect = (files: File[]) => {
+        setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
+    };
 
 
     const collectionRef = collection(db, 'news');
     const handleOnChangeSetNews = (e: React.ChangeEvent<HTMLTextAreaElement>) => setCreateNews(e.target.value);
-    const handleFileSelect = (file: File) => {
-        setSelectedFile(file);
-    };
+
     const submitNews = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
-            let imageURL = '';
-            let name = '';
-            if (selectedFile) {
-                const storageRef = ref(storage, `images/${selectedFile.name}`);
-                await uploadBytes(storageRef, selectedFile);
-                imageURL = await getDownloadURL(storageRef);
-                name = selectedFile.name;
+            const imageURLs: string[] = [];
+            const names: string[] = [];
+
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const storageRef = ref(storage, `images/${selectedFiles[i].name}`);
+                await uploadBytes(storageRef, selectedFiles[i]);
+                const imageURL = await getDownloadURL(storageRef);
+                imageURLs.push(imageURL);
+                names.push(selectedFiles[i].name);
             }
 
             await addDoc(collectionRef, {
                 text: createNews,
                 timestamp: serverTimestamp(),
-                imageURL: imageURL,
-                name: name
+                imageURL: imageURLs,
+                name: names
             });
-            setSelectedFile(null);
-            setSelectedFileURL('');
+
+            setSelectedFiles([]);
+            setSelectedFilesURL([]);
             setCreateNews('');
         } catch (err) {
             console.log(err);
         }
     };
+
 
     console.log(news);
     useEffect(() => {
@@ -133,7 +139,7 @@ const NewsPage: React.FC = () => {
     return (<div className={style.container}>
         {news.map(({ text, id, timestamp, imageURL, name }) => (
             <div className={style.newsItem} key={id}>
-                {imageURL && (<img src={imageURL} alt={name} />)}
+                {imageURL && (<img className={style.postImage} src={imageURL} alt={name} />)}
                 <p>{text}</p>
                 {text && <p>{new Date(timestamp.seconds * 1000).toLocaleString()}</p>}
             </div>
