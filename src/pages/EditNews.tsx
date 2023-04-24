@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebase/firebase'
 import style from '../styles/NewsPage.module.scss'
+import { NewsItem } from './NewsPage';
 interface Props {
-  news: string;
+  newsText: string;
   id: string;
 }
 
-const EditNews: React.FC<Props> = ({ news, id }) => {
+const EditNews: React.FC<Props> = ({ id }) => {
 
-  const [newsText, setNewsText] = useState<string>(news)
+  const [newsText, setNewsText] = useState<string>()
 
   const updateNews = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()

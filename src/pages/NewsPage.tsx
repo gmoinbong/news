@@ -1,27 +1,32 @@
 import React, { useState, useEffect } from 'react'
+import { db, storage } from '../firebase/firebase'
 import { collection, addDoc, serverTimestamp, getDocs, doc, deleteDoc, orderBy, query } from 'firebase/firestore'
-import { app, db, } from '../firebase/firebase'
-import EditTodo from './EditNews'
-import Signin from '../components/auth/Signin'
-
-import style from '../styles/NewsPage.module.scss'
-import ImageUploader from '../components/utility/ImageUploader'
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useSigninCheck } from 'reactfire'
 
-interface NewsItem {
+import Signin from '../components/auth/Signin'
+import EditNews from './EditNews'
+import ImageUploader from '../components/utility/ImageUploader'
+
+import style from '../styles/NewsPage.module.scss'
+
+export interface NewsItem {
     id: string;
     text: string;
     timestamp: {
         seconds: number;
     };
-    imageURL: string;
-    name: string;
+    imageURL: string[];
+    name: string[];
 }
-const storage = getStorage(app);
-
 
 const NewsPage: React.FC = () => {
+    useEffect(() => {
+        getNews();
+    }, []);
+
+    const collectionRef = collection(db, 'news');
+
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [selectedFilesURL, setSelectedFilesURL] = useState<string[]>([]);
     const [createNews, setCreateNews] = useState<string>('');
@@ -33,13 +38,10 @@ const NewsPage: React.FC = () => {
         setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
     };
 
-
-    const collectionRef = collection(db, 'news');
     const handleOnChangeSetNews = (e: React.ChangeEvent<HTMLTextAreaElement>) => setCreateNews(e.target.value);
 
     const submitNews = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         try {
             const imageURLs: string[] = [];
             const names: string[] = [];
@@ -58,40 +60,36 @@ const NewsPage: React.FC = () => {
                 imageURL: imageURLs,
                 name: names
             });
-
             setSelectedFiles([]);
-            setSelectedFilesURL([]);
+            setSelectedFilesURL(['']);
             setCreateNews('');
+            getNews();
         } catch (err) {
             console.log(err);
         }
     };
-
-
-    console.log(news);
-    useEffect(() => {
-        const getNews = async () => {
-            const q = query(collectionRef, orderBy('timestamp'));
-            try {
-                const newsDocs = await getDocs(q);
-                const newsData = newsDocs.docs.map(async (doc) => {
-                    const data = doc.data() as NewsItem;
-                    if (data.imageURL) {
-                        const imageURL = await getDownloadURL(ref(storage, data.imageURL));
-                        console.log(imageURL, 'ссылка');
-                        return { ...data, id: doc.id, imageURL };
-                    } else {
-                        return { ...data, id: doc.id };
-                    }
-                });
-                const newsArray = await Promise.all(newsData);
-                setNews(newsArray);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        getNews();
-    }, []);
+    const getNews = async () => {
+        const q = query(collectionRef, orderBy('timestamp'));
+        try {
+            const newsDocs = await getDocs(q);
+            const newsDataPromises = newsDocs.docs.map(async (doc) => {
+                const data = doc.data() as NewsItem;
+                if (data.imageURL) {
+                    const imageURLPromises = data.imageURL.map(async (url) => {
+                        return await getDownloadURL(ref(storage, url));
+                    });
+                    const imageURLs = await Promise.all(imageURLPromises);
+                    return { ...data, id: doc.id, imageURL: imageURLs };
+                } else {
+                    return { ...data, id: doc.id };
+                }
+            });
+            const newsData = await Promise.all(newsDataPromises);
+            setNews(newsData);
+        } catch (err) {
+            console.log(err, 'error');
+        }
+    };
 
     const deleteNews = async (id: string) => {
         try {
@@ -108,29 +106,32 @@ const NewsPage: React.FC = () => {
     if (status === "loading") {
         return <span>Зачекайте...</span>;
     }
-    if (signInCheckResult.signedIn !== false || undefined) {
+    if (signInCheckResult.signedIn !== false && signInCheckResult.signedIn !== undefined) {
         return (
             <div className={style.container}>
                 <Signin />
                 {news.map(({ text, id, timestamp, imageURL, name }) => (
                     <div key={id}>
                         <div className={style.newsItem}>
-                            {imageURL && (<img src={imageURL} alt={name} />)}
+                            {imageURL.map((url, index) => (
+                                <img className={style.postImage} src={url} alt={name[index] + '1'} key={index} />
+                            ))}
                             <p>{text}</p>
+                            <p>{new Date(timestamp.seconds * 1000).toLocaleString()}</p>
+                            <EditNews newsText={text} id={id} />
                         </div>
-                        <p>{new Date(timestamp.seconds * 1000).toLocaleString()}</p>
-                        <EditTodo news={text} id={id} />
                         <button type="button" onClick={() => deleteNews(id)}>
                             Видалити
                         </button>
                     </div>
                 ))}
+
                 <form onSubmit={submitNews}>
                     <textarea
                         className={style.formControl}
                         placeholder="Введіть текст.."
                         onChange={handleOnChangeSetNews} />
-                    <ImageUploader handleFileSelect={handleFileSelect} />
+                    <ImageUploader handleFileSelect={handleFileSelect} selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
                     <button>Створити новину</button>
                 </form>
             </div>
@@ -139,9 +140,11 @@ const NewsPage: React.FC = () => {
     return (<div className={style.container}>
         {news.map(({ text, id, timestamp, imageURL, name }) => (
             <div className={style.newsItem} key={id}>
-                {imageURL && (<img className={style.postImage} src={imageURL} alt={name} />)}
+                {imageURL.map((url, index) => (
+                    <img className={style.postImage} src={url} alt={name[index] + '1'} key={index} />
+                ))}
                 <p>{text}</p>
-                {text && <p>{new Date(timestamp.seconds * 1000).toLocaleString()}</p>}
+                <p>{new Date(timestamp.seconds * 1000).toLocaleString()}</p>
             </div>
         ))}
         <Signin />

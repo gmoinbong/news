@@ -1,47 +1,52 @@
-import React, { useState } from 'react'
-import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage'
+import React, { useState, useEffect } from 'react';
+import { AiOutlineUpload } from 'react-icons/ai';
+import { FaTimes } from 'react-icons/fa';
 
 interface ImageUploaderProps {
-  handleFileSelect: (file: File[]) => void;
+  handleFileSelect: (files: File[]) => void;
+  selectedFiles: File[];
+  setSelectedFiles: React.Dispatch<React.SetStateAction<File[]>>;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ handleFileSelect }) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string>('');
-
-  const storage = getStorage();
-
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      handleFileSelect([file]);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+const ImageUploader: React.FC<ImageUploaderProps> = ({
+  handleFileSelect,
+  selectedFiles,
+  setSelectedFiles,
+}) => {
+  const handleSelectedFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      handleFileSelect(filesArray);
     }
   };
 
-  const handleUpload = async () => {
-    if (selectedFile) {
-      const storageRef = ref(storage, `images/${selectedFile.name}`);
-      await uploadBytes(storageRef, selectedFile);
-      const imageURL = await getDownloadURL(storageRef);
-      console.log(imageURL);
-      setPreview('');
-      setSelectedFile(null);
-    }
+  const handleRemoveSelectedFile = (name: string) => {
+    const filteredSelectedFiles = selectedFiles.filter(
+      (file: File) => file.name !== name
+    );
+    setSelectedFiles(filteredSelectedFiles);
+    handleFileSelect(filteredSelectedFiles);
   };
 
   return (
     <div>
-      {preview && <img src={preview} alt="Preview" />}
-      <input type="file" accept="image/*" onChange={handleFileInput} />
-      <button onClick={handleUpload}>Upload</button>
+      <label htmlFor="fileUploader" className="btn">
+        <AiOutlineUpload />
+      </label>
+      <input type="file"
+        id="fileUploader" multiple accept="image/*"
+        onChange={handleSelectedFiles}
+        style={{ display: 'none' }}
+      />
+      <div className="selectedFiles">
+        {selectedFiles.map((file) => (
+          <div className="selectedFile" key={file.name}>
+            <p>{file.name}</p>
+            <FaTimes onClick={() => handleRemoveSelectedFile(file.name)} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
-
-export default ImageUploader;
+export default ImageUploader
