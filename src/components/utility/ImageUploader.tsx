@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { AiOutlineUpload } from 'react-icons/ai';
 import { FaTimes } from 'react-icons/fa';
 

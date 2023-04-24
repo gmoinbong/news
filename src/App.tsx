@@ -3,13 +3,10 @@ import Main from "./pages/Main";
 import PageTwo from "./pages/PageTwo";
 import AboutPage from "./pages/AboutPage";
 import PageCTA from "./pages/PageCTA";
-import NewsPage from "./pages/NewsPage";
+import NewsPage from "./pages/News/NewsPage";
 import Header from "./components/Header";
-import { AuthProvider, useFirebaseApp } from "reactfire";
-import { getAuth } from 'firebase/auth';
-import { getDatabase } from 'firebase/database';
+import { AuthProvider } from "reactfire";
 import { AuthContextProvider } from "./firebase/authContext";
-import Account from "./components/auth/Account";
 import { auth } from "./firebase/firebase";
 
 

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebase/firebase'
 import style from '../styles/NewsPage.module.scss'
-import { NewsItem } from './NewsPage';
 interface Props {
   newsText: string;
   id: string;
@@ -33,11 +32,9 @@ const EditNews: React.FC<Props> = ({ id }) => {
       <form>
         <textarea className={style.editPost} onChange={handleOnChangeNews} value={newsText} />
       </form>
-      <button
-        type="button"
+      <button type="button"
         className="btn btn-primary"
-        onClick={updateNews}
-      >Застосувати зміни</button>
+        onClick={updateNews}>Застосувати зміни</button>
     </>
   )
 }
