@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSigninCheck } from 'reactfire';
 import ImageUploader from '../../components/utility/ImageUploader';
-import { deleteNews, getNews, NewsItem, submitNews, handleOnChangeSetNews, handleFileSelect } from './api';
+import { deleteNews, getNews, NewsItem, submitNews, handleFileSelect } from '../../components/utility/NewsApi';
 import NewsList from './NewsList';
 import style from '../../styles/NewsPage.module.scss';
 
@@ -10,35 +10,37 @@ const NewsPage: React.FC = () => {
     const [selectedFilesURL, setSelectedFilesURL] = useState<string[]>([]);
     const [createNews, setCreateNews] = useState<string>('');
     const [news, setNews] = useState<NewsItem[]>([]);
+    const { status } = useSigninCheck();
 
     useEffect(() => {
-        async function fetchNews() {
+        const fetchNews = async () => {
             const newsData = await getNews();
             setNews(newsData);
-        }
+        };
         fetchNews();
     }, []);
 
-    const { status } = useSigninCheck();
-
-    if (status === 'loading') {
-        return <div>Завантаження...</div>;
+    const handleNewsSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        submitNews(e, selectedFiles, createNews, setSelectedFiles, setCreateNews, setSelectedFilesURL);
+    };
+    if (status === "loading") {
+        return <div>Завантаження</div>
     }
-
     return (
         <div className={style.container}>
             <NewsList deleteNews={deleteNews} news={news} />
-            <form onSubmit={(e) => submitNews(e, selectedFiles, createNews,
-                setSelectedFiles, setCreateNews, setSelectedFilesURL)}>
+            <form onSubmit={handleNewsSubmit}>
                 <textarea
                     className={style.formControl}
-                    placeholder="Введіть текст.." value={createNews}
-                    onChange={(e) => handleOnChangeSetNews(e, setCreateNews)}
+                    placeholder="Введіть текст.."
+                    value={createNews}
+                    onChange={(e) => setCreateNews(e.target.value)}
                 />
                 <ImageUploader
                     handleFileSelect={(files: File[]) => handleFileSelect(files, setSelectedFiles)}
-                    selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles}
-                />
+                    selectedFiles={selectedFiles}
+                    setSelectedFiles={setSelectedFiles} />
                 <button>Створити новину</button>
             </form>
         </div>

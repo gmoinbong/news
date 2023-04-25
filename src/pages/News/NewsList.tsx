@@ -3,7 +3,7 @@ import { useSigninCheck } from 'reactfire'
 import EditNews from '../EditNews'
 
 import style from '../../styles/NewsPage.module.scss'
-import { NewsItem } from './api';
+import { NewsItem } from '../../components/utility/NewsApi';
 
 interface Props {
   news: NewsItem[];

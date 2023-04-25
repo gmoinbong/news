@@ -1,5 +1,4 @@
 import { uploadBytes } from 'firebase/storage';
-// api.ts
 import { collection, getDocs, orderBy, query, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { deleteDoc, doc } from 'firebase/firestore';
@@ -14,18 +13,6 @@ export interface NewsItem {
   imageURL: string[];
   name: string[];
 }
-
-export const deleteNews = async (id: string) => {
-  try {
-    if (window.confirm('Are you sure you want to delete this News!')) {
-      const documentRef = doc(db, 'news', id);
-      await deleteDoc(documentRef);
-      window.location.reload();
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 export const getNews = async (): Promise<NewsItem[]> => {
   const collectionRef = collection(db, 'news');
@@ -49,6 +36,19 @@ export const getNews = async (): Promise<NewsItem[]> => {
   } catch (err) {
     console.log(err, 'error');
     return [];
+  }
+};
+
+
+export const deleteNews = async (id: string) => {
+  try {
+    if (window.confirm('Are you sure you want to delete this News!')) {
+      const documentRef = doc(db, 'news', id);
+      await deleteDoc(documentRef);
+      window.location.reload();
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 

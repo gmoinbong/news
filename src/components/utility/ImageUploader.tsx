@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { AiOutlineUpload } from 'react-icons/ai';
 import { FaTimes } from 'react-icons/fa';
 
@@ -13,34 +13,41 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   selectedFiles,
   setSelectedFiles,
 }) => {
-  const handleSelectedFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      handleFileSelect(filesArray);
-    }
-  };
+  const handleSelectedFiles = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        const filesArray = Array.from(e.target.files);
+        handleFileSelect(filesArray);
+      }
+    },
+    [handleFileSelect]
+  );
 
-  const handleRemoveSelectedFile = (name: string) => {
-    const filteredSelectedFiles = selectedFiles.filter(
-      (file: File) => file.name !== name
-    );
-    setSelectedFiles(filteredSelectedFiles);
-    handleFileSelect(filteredSelectedFiles);
-  };
+  const handleRemoveSelectedFile = useCallback(
+    (name: string) => {
+      setSelectedFiles((prevSelectedFiles) =>
+        prevSelectedFiles.filter((file: File) => file.name !== name)
+      );
+    },
+    [setSelectedFiles]
+  );
 
   return (
     <div>
       <label htmlFor="fileUploader" className="btn">
         <AiOutlineUpload />
       </label>
-      <input type="file"
-        id="fileUploader" multiple accept="image/*"
+      <input
+        type="file"
+        id="fileUploader"
+        multiple
+        accept="image/*"
         onChange={handleSelectedFiles}
         style={{ display: 'none' }}
       />
       <div className="selectedFiles">
-        {selectedFiles.map((file) => (
-          <div className="selectedFile" key={file.name}>
+        {selectedFiles.map((file, index) => (
+          <div className="selectedFile" key={file.name + index}>
             <p>{file.name}</p>
             <FaTimes onClick={() => handleRemoveSelectedFile(file.name)} />
           </div>
@@ -49,4 +56,5 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     </div>
   );
 };
-export default ImageUploader
+
+export default ImageUploader;
