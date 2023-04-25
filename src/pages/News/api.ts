@@ -1,5 +1,6 @@
+import { uploadBytes } from 'firebase/storage';
 // api.ts
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db, storage } from '../../firebase/firebase'
@@ -48,5 +49,52 @@ export const getNews = async (): Promise<NewsItem[]> => {
   } catch (err) {
     console.log(err, 'error');
     return [];
+  }
+};
+
+const clearForm = (
+  setCreateNews: React.Dispatch<React.SetStateAction<string>>,
+  setSelectedFiles: React.Dispatch<React.SetStateAction<File[]>>,
+  setSelectedFilesURL: React.Dispatch<React.SetStateAction<string[]>>
+) => {
+  setCreateNews("");
+  setSelectedFiles([]);
+  setSelectedFilesURL([""]);
+};
+
+export const handleFileSelect = (files: File[], setSelectedFiles: React.Dispatch<React.SetStateAction<File[]>>) => {
+  setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
+};
+
+export const handleOnChangeSetNews = (e: React.ChangeEvent<HTMLTextAreaElement>,
+  setCreateNews: React.Dispatch<React.SetStateAction<string>>) => setCreateNews(e.target.value);
+
+export const submitNews = async (e: React.FormEvent<HTMLFormElement>,
+  selectedFiles: File[], createNews: string, setSelectedFiles: React.Dispatch<React.SetStateAction<File[]>>,
+  setCreateNews: React.Dispatch<React.SetStateAction<string>>, setSelectedFilesURL: React.Dispatch<React.SetStateAction<string[]>>) => {
+  e.preventDefault();
+  try {
+    const collectionRef = collection(db, 'news');
+    const imageURLs: string[] = [];
+    const names: string[] = [];
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const storageRef = ref(storage, `images/${selectedFiles[i].name}`);
+      await uploadBytes(storageRef, selectedFiles[i]);
+      const imageURL = await getDownloadURL(storageRef);
+      imageURLs.push(imageURL);
+      names.push(selectedFiles[i].name);
+    }
+
+    await addDoc(collectionRef, {
+      text: createNews,
+      timestamp: serverTimestamp(),
+      imageURL: imageURLs,
+      name: names
+    });
+    clearForm(setCreateNews, setSelectedFiles, setSelectedFilesURL);
+    getNews();
+  } catch (err) {
+    console.log(err);
   }
 };
