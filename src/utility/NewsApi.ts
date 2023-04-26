@@ -2,10 +2,11 @@ import { uploadBytes } from 'firebase/storage';
 import { collection, getDocs, orderBy, query, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { deleteDoc, doc } from 'firebase/firestore';
-import { db, storage } from '../../firebase/firebase'
+import { db, storage } from '../firebase/firebase'
 
 export interface NewsItem {
   id: string;
+  title: string;
   text: string;
   timestamp: {
     seconds: number;
@@ -53,13 +54,15 @@ export const deleteNews = async (id: string) => {
 };
 
 const clearForm = (
-  setCreateNews: React.Dispatch<React.SetStateAction<string>>,
+  setCreateNewsText: React.Dispatch<React.SetStateAction<string>>,
   setSelectedFiles: React.Dispatch<React.SetStateAction<File[]>>,
-  setSelectedFilesURL: React.Dispatch<React.SetStateAction<string[]>>
+  setSelectedFilesURL: React.Dispatch<React.SetStateAction<string[]>>,
+  setCreateTitle: React.Dispatch<React.SetStateAction<string>>
 ) => {
-  setCreateNews("");
+  setCreateNewsText("");
   setSelectedFiles([]);
   setSelectedFilesURL([""]);
+  setCreateTitle('')
 };
 
 export const handleFileSelect = (files: File[], setSelectedFiles: React.Dispatch<React.SetStateAction<File[]>>) => {
@@ -67,11 +70,12 @@ export const handleFileSelect = (files: File[], setSelectedFiles: React.Dispatch
 };
 
 export const handleOnChangeSetNews = (e: React.ChangeEvent<HTMLTextAreaElement>,
-  setCreateNews: React.Dispatch<React.SetStateAction<string>>) => setCreateNews(e.target.value);
+  setCreateNewsText: React.Dispatch<React.SetStateAction<string>>) => setCreateNewsText(e.target.value);
 
 export const submitNews = async (e: React.FormEvent<HTMLFormElement>,
-  selectedFiles: File[], createNews: string, setSelectedFiles: React.Dispatch<React.SetStateAction<File[]>>,
-  setCreateNews: React.Dispatch<React.SetStateAction<string>>, setSelectedFilesURL: React.Dispatch<React.SetStateAction<string[]>>) => {
+  selectedFiles: File[], setSelectedFiles: React.Dispatch<React.SetStateAction<File[]>>, createNewsText: string,
+  setCreateNewsText: React.Dispatch<React.SetStateAction<string>>, setSelectedFilesURL: React.Dispatch<React.SetStateAction<string[]>>
+  , setCreateTitle: React.Dispatch<React.SetStateAction<string>>, createTitle: string) => {
   e.preventDefault();
   try {
     const collectionRef = collection(db, 'news');
@@ -87,12 +91,13 @@ export const submitNews = async (e: React.FormEvent<HTMLFormElement>,
     }
 
     await addDoc(collectionRef, {
-      text: createNews,
+      title: createTitle,
+      text: createNewsText,
       timestamp: serverTimestamp(),
       imageURL: imageURLs,
       name: names
     });
-    clearForm(setCreateNews, setSelectedFiles, setSelectedFilesURL);
+    clearForm(setCreateNewsText, setSelectedFiles, setSelectedFilesURL, setCreateTitle);
     getNews();
   } catch (err) {
     console.log(err);

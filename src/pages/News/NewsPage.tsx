@@ -1,48 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { useSigninCheck } from 'reactfire';
-import ImageUploader from '../../components/utility/ImageUploader';
-import { deleteNews, getNews, NewsItem, submitNews, handleFileSelect } from '../../components/utility/NewsApi';
+import { deleteNews, getNews, NewsItem } from '../../utility/NewsApi';
 import NewsList from './NewsList';
 import style from '../../styles/NewsPage.module.scss';
+import Signin from '../../components/auth/Signin';
 
 const NewsPage: React.FC = () => {
+    const { status, data: signInCheckResult } = useSigninCheck();
+
+    const [createTitle, setCreateTitle] = useState<string>('')
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [selectedFilesURL, setSelectedFilesURL] = useState<string[]>([]);
-    const [createNews, setCreateNews] = useState<string>('');
+    const [createNewsText, setCreateNewsText] = useState<string>('');
     const [news, setNews] = useState<NewsItem[]>([]);
-    const { status } = useSigninCheck();
 
     useEffect(() => {
         const fetchNews = async () => {
             const newsData = await getNews();
             setNews(newsData);
+            console.log(news);
         };
         fetchNews();
     }, []);
 
-    const handleNewsSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        submitNews(e, selectedFiles, createNews, setSelectedFiles, setCreateNews, setSelectedFilesURL);
-    };
     if (status === "loading") {
         return <div>Завантаження</div>
     }
+
+    if (signInCheckResult.signedIn !== false && signInCheckResult.signedIn !== undefined) {
+        return (
+            <div className={style.container}>
+                <Signin />
+                <NewsList {...{
+                    createNewsText, createTitle, selectedFiles, deleteNews,
+                    news, setCreateNewsText, setCreateTitle, setSelectedFiles, setSelectedFilesURL
+                }} />
+            </div>
+        );
+    }
+
     return (
         <div className={style.container}>
-            <NewsList deleteNews={deleteNews} news={news} />
-            <form onSubmit={handleNewsSubmit}>
-                <textarea
-                    className={style.formControl}
-                    placeholder="Введіть текст.."
-                    value={createNews}
-                    onChange={(e) => setCreateNews(e.target.value)}
-                />
-                <ImageUploader
-                    handleFileSelect={(files: File[]) => handleFileSelect(files, setSelectedFiles)}
-                    selectedFiles={selectedFiles}
-                    setSelectedFiles={setSelectedFiles} />
-                <button>Створити новину</button>
-            </form>
+            <Signin />
+            <NewsList {...{
+                createNewsText, createTitle, selectedFiles, deleteNews,
+                news, setCreateNewsText, setCreateTitle, setSelectedFiles, setSelectedFilesURL
+            }} />
         </div>
     );
 };

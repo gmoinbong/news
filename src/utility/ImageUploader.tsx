@@ -13,6 +13,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   selectedFiles,
   setSelectedFiles,
 }) => {
+
   const handleSelectedFiles = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
