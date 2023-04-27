@@ -58,14 +58,14 @@ const Header = () => {
                                 Новини
                             </Link>
                         </li>
-                        {/* <li>
-                            <Link to="/page-two" onClick={menuToggleHandler}>
-                                PageTwo
-                            </Link>
-                        </li> */}
                         <li>
                             <Link to="/about" onClick={menuToggleHandler}>
                                 Про нас
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/admin" onClick={menuToggleHandler}>
+                                Вхід
                             </Link>
                         </li>
                     </ul>
