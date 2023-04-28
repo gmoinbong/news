@@ -43,8 +43,7 @@ const NewsForm: React.FC<NewsFormProps> = ({
       <ImageUploader
         handleFileSelect={(files: File[]) =>
           handleFileSelect(files, setSelectedFiles)}
-        selectedFiles={selectedFiles}
-        setSelectedFiles={setSelectedFiles}
+        {...{ selectedFiles, setSelectedFiles }}
       />
       <button>Створити новину</button>
     </form>

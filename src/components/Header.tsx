@@ -63,11 +63,6 @@ const Header = () => {
                                 Про нас
                             </Link>
                         </li>
-                        <li>
-                            <Link to="/admin" onClick={menuToggleHandler}>
-                                Вхід
-                            </Link>
-                        </li>
                     </ul>
                 </nav>
                 <div className={styles.header__content__toggle}>

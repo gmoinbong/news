@@ -1,0 +1,41 @@
+ul[class],
+ol[class] {
+  list-style: none;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+
+  li {
+    display: inline-block;
+    padding: 10px;
+    margin: 0 5px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #555;
+
+
+    &:hover {
+      background-color: #eee;
+    }
+  }
+
+  .active {
+    background-color: #8f9490;
+    color: #fff;
+  }
+
+  svg {
+    vertical-align: middle;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+
+  .disabled {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+}

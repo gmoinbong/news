@@ -20,7 +20,7 @@ function App() {
                     <Route path="/" element={<Main />} />
                     <Route path="/news/" element={<NewsPage />} />
                     <Route path="/about" element={<AboutPage />} />
-                    <Route path="/admin" element={<PageAdmin />} />
+                    <Route path="/adminring" element={<PageAdmin />} />
                 </Routes>
             </AuthContextProvider>
         </AuthProvider>

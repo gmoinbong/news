@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { deleteNews, getNews, NewsItem } from '../../utility/NewsApi';
-import NewsList from './NewsList';
+
 
 import style from '../../styles/NewsPage.module.scss';
 import Pagination from '../../utility/Pagination';
 import NotificationLoader from '../../components/NotificationLoader';
 import { useSigninCheck } from 'reactfire';
 
+const NewsList = lazy(() => import('./NewsList'))
 const NewsPage: React.FC = () => {
     const { status } = useSigninCheck();
 
@@ -50,11 +51,12 @@ const NewsPage: React.FC = () => {
                 </div>
             ) : (
                 <>
-                    <NewsList {...{
+                    <Suspense> <NewsList {...{
                         createNewsText, createTitle, selectedFiles, deleteNews,
                         setCreateNewsText, setCreateTitle, setSelectedFiles, setSelectedFilesURL
                     }}
                         news={currentNews} onClick={handleClickNews} />
+                    </Suspense>
                     <Pagination{...{
                         itemsPerPage, currentPage, setCurrentPage
                     }}

@@ -5,8 +5,7 @@ import style from '../styles/Main.module.scss';
 const Main = () => {
     return <>
         <p className={style.mainInfo}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea eos laborum eveniet? Sequi atque voluptatum quibusdam illum cumque saepe quos exercitationem aut, nihil laborum, distinctio minima laboriosam amet, ipsam rerum.
-
+            Добро пожаловать на нашу страницу новостей! Мы рады приветствовать вас здесь и надеемся, что вы найдете много интересного и полезного для себя. Наша команда усердно работает над тем, чтобы предоставлять вам самые свежие и актуальные новости, отражающие события в мире, а также важные события, происходящие у нас в стране и регионе.
         </p>
         <Slider  >
             <SliderItem><img className={style.sliderImage} src={max} alt='item 1' /></SliderItem>

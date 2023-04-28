@@ -29,7 +29,7 @@ const NewsList: React.FC<Props> = (props) => {
       return (
         <img className={style.postImage} src={imageURL[0]} alt={name[0]} onClick={() => setSelectedImage(0)} />
       );
-    } else {
+    } else if (imageURL.length > 1) {
       const galleryItems = imageURL.map((url, index) => ({
         url: url,
         alt: name[index],
@@ -37,10 +37,10 @@ const NewsList: React.FC<Props> = (props) => {
       return (
         <Gallery items={galleryItems} />
       );
+    } else {
+      return null;
     }
   };
-
-
 
   if (signInCheckResult && signInCheckResult.signedIn !== false && signInCheckResult.signedIn !== undefined) {
     return (
@@ -84,6 +84,5 @@ const NewsList: React.FC<Props> = (props) => {
       </>
     );
   }
-};
-
+}
 export default NewsList;

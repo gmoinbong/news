@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
 import { useSwipeable } from "react-swipeable";
 
 import "../../../src/styles/Slider.scss";
@@ -72,7 +73,7 @@ const Slider = ({ children }: Props) => {
             updateIndex(activeIndex - 1);
           }}
         >
-          🢀
+          <AiOutlineDoubleLeft />
         </button>
         {React.Children.map(children, (child, index) => {
           return (
@@ -91,7 +92,7 @@ const Slider = ({ children }: Props) => {
             updateIndex(activeIndex + 1);
           }}
         >
-          🢂
+          <AiOutlineDoubleRight />
         </button>
       </div>
     </div>
