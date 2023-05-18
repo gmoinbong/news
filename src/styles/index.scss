@@ -1,10 +1,15 @@
 @import "./variables.scss";
-
-
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,500;1,500&display=swap');
 
 * {
     box-sizing: border-box;
     margin: 0 auto;
+}
+
+html,
+body {
+    height: 100%;
+
 }
 
 body {
@@ -12,8 +17,14 @@ body {
     font-family: $Poppins;
     color: $dark;
     display: block;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    position: absolute;
+    margin-bottom: 50px;
+
 }
 
-#root {
-    height: 100%;
-}
+// #root {
+//     height: 100%;
+// }

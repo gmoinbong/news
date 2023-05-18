@@ -1,9 +1,16 @@
 @import "./variables.scss";
 
+ul {
+    list-style: none;
+    padding: 0 !important;
+    margin: 0;
+}
+
 .header {
+    font-family: myfont;
     background: $dark;
     width: 100%;
-    height: $headerHeight;
+    height: 60px;
     padding: 0 1.5rem;
     position: sticky;
     z-index: 1;
@@ -25,13 +32,16 @@
         justify-content: space-between;
         position: relative;
         z-index: 100;
+        font-weight: 400;
+        font-size: medium;
 
         &__logo {
             font-size: 1.5rem;
-            font-weight: bold;
             text-decoration: none;
             color: $light;
             z-index: 2;
+            font-weight: 500;
+
         }
 
         &__nav {
@@ -150,4 +160,20 @@
             }
         }
     }
+}
+
+.page {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    height: 100%;
+    margin-right: 5px;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+
 }

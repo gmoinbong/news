@@ -24,15 +24,16 @@ const NewsList: React.FC<Props> = (props) => {
   const [selectedImage, setSelectedImage] = useState(-1);
   const { data: signInCheckResult = { signedIn: false } } = useSigninCheck();
 
-  const renderNewsGallery = (imageURL: string[], name: string[]) => {
+  const renderNewsGallery = (imageURL: string[], name: string[], index: number) => {
     if (imageURL.length === 1) {
       return (
-        <img className={style.postImage} src={imageURL[0]} alt={name[0]} onClick={() => setSelectedImage(0)} />
+        <img className={style.postImage} src={imageURL[0]} alt={name[0]} onClick={() => setSelectedImage(index)} />
       );
     } else if (imageURL.length > 1) {
       const galleryItems = imageURL.map((url, index) => ({
         url: url,
         alt: name[index],
+        onClick: () => setSelectedImage(index * imageURL.length + index)
       }));
       return (
         <Gallery items={galleryItems} />
@@ -45,10 +46,10 @@ const NewsList: React.FC<Props> = (props) => {
   if (signInCheckResult && signInCheckResult.signedIn !== false && signInCheckResult.signedIn !== undefined) {
     return (
       <>
-        {props.news.map(({ text, id, timestamp, imageURL, name, title }) => (
+        {props.news.map(({ text, id, timestamp, imageURL, name, title }, index) => (
           <div className={style.newsItem} key={id}>
             <h5>{title}</h5>
-            {renderNewsGallery(imageURL, name)}
+            {renderNewsGallery(imageURL, name, index)}
             <p>{text}</p>
             <FormattedDate timestamp={timestamp} />
             <EditNews newsText={text} id={id} />
@@ -57,6 +58,7 @@ const NewsList: React.FC<Props> = (props) => {
             </button>
           </div>
         ))}
+
         <NewsForm {...props} />
         {selectedImage >= 0 && (
           <div className={style.fullImage} onClick={() => setSelectedImage(-1)}>
@@ -68,14 +70,15 @@ const NewsList: React.FC<Props> = (props) => {
   } else {
     return (
       <>
-        {props.news.map(({ text, id, timestamp, imageURL, name, title }) => (
+        {props.news.map(({ text, id, timestamp, imageURL, name, title }, index) => (
           <div className={style.newsItem} key={id}>
             <h5>{title}</h5>
-            {renderNewsGallery(imageURL, name)}
+            {renderNewsGallery(imageURL, name, index)}
             <p>{text}</p>
             <FormattedDate timestamp={timestamp} />
           </div>
         ))}
+
         {selectedImage >= 0 && (
           <div className={style.fullImage} onClick={() => setSelectedImage(-1)}>
             <img className={style.postImage} src={props.news[selectedImage].imageURL[0]} alt={props.news[selectedImage].name[0]} />

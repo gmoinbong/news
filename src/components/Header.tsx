@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 
-import { BiMenuAltRight } from "react-icons/bi";
+import { BiMenuAltRight, BiNews } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
-
+import { RiTeamLine } from "react-icons/ri"
 import styles from "../styles/Header.module.scss";
 import { Link, } from "react-router-dom";
 interface Isize {
@@ -52,15 +52,15 @@ const Header = () => {
                     className={`${styles.header__content__nav} ${menuOpen && size.width < 768 ? styles.isMenu : ""
                         }`}
                 >
-                    <ul>
-                        <li>
-                            <Link to="/news" onClick={menuToggleHandler}>
-                                Новини
+                    <ul className={styles.page}>
+                        <li >
+                            <Link to="/news" onClick={menuToggleHandler} className={styles.info}>
+                                <BiNews className={styles.icon} /> Новини
                             </Link>
                         </li>
-                        <li>
-                            <Link to="/about" onClick={menuToggleHandler}>
-                                Про нас
+                        <li >
+                            <Link to="/about" onClick={menuToggleHandler} className={styles.info}>
+                                <RiTeamLine className={styles.icon} />  Про нас
                             </Link>
                         </li>
                     </ul>

@@ -13,6 +13,7 @@ export interface NewsItem {
   };
   imageURL: string[];
   name: string[];
+  index: number
 }
 
 export const getNews = async (): Promise<NewsItem[]> => {

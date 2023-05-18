@@ -7,6 +7,7 @@ interface Props {
   onChangePage: (page: number) => void;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>
   currentPage: number;
+  className: string;
 }
 
 const Pagination: React.FC<Props> = ({ itemCount, itemsPerPage, onChangePage }) => {
@@ -16,6 +17,7 @@ const Pagination: React.FC<Props> = ({ itemCount, itemsPerPage, onChangePage }) 
   const handleClick = (page: number) => {
     setCurrentPage(page);
     onChangePage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const renderPages = () => {

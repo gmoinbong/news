@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import { AuthProvider } from "reactfire";
 import { AuthContextProvider } from "./firebase/authContext";
 import { auth } from "./firebase/firebase";
+import Footer from "./components/Footer";
 
 
 
@@ -22,6 +23,7 @@ function App() {
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/adminring" element={<PageAdmin />} />
                 </Routes>
+                <Footer />
             </AuthContextProvider>
         </AuthProvider>
     );

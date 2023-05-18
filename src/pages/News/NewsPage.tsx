@@ -2,12 +2,15 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { deleteNews, getNews, NewsItem } from '../../utility/NewsApi';
 
 
-import style from '../../styles/NewsPage.module.scss';
 import Pagination from '../../utility/Pagination';
 import NotificationLoader from '../../components/NotificationLoader';
 import { useSigninCheck } from 'reactfire';
 
+import style from '../../styles/NewsPage.module.scss';
+import '../../styles/fonts/font.css';
+
 const NewsList = lazy(() => import('./NewsList'))
+
 const NewsPage: React.FC = () => {
     const { status } = useSigninCheck();
 
@@ -60,7 +63,7 @@ const NewsPage: React.FC = () => {
                     <Pagination{...{
                         itemsPerPage, currentPage, setCurrentPage
                     }}
-                        itemCount={news.length} onChangePage={handlePageChange}
+                        className={style.pagination} itemCount={news.length} onChangePage={handlePageChange}
                     />
                 </>
             )}
