@@ -1,7 +1,7 @@
 import React from "react";
-import max from '../assets/images/max.jpg'
-import Slider, { SliderItem } from "../components/Slider/Slider";
-import style from '../styles/Main.module.scss';
+import max from '../../assets/images/max.jpg'
+import Slider, { SliderItem } from "../../components/Slider/Slider";
+import style from './Main.module.scss';
 const Main = () => {
     return <>
         <p className={style.mainInfo}>

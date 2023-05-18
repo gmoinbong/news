@@ -1,6 +1,6 @@
 import React from 'react';
 import { MdMoreTime } from "react-icons/md";
-import style from '../styles/NewsPage.module.scss'
+import style from '../pages/News/NewsPage.module.scss'
 interface Props {
   timestamp: {
     seconds: number;

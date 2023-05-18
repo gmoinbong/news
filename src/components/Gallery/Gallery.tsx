@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import style from '../styles/Gallery.module.scss';
+import style from './Gallery.module.scss';
 
 interface GalleryItemProps {
   url: string;

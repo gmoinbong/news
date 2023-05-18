@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router-dom";
+import AboutPage from "./pages/AboutPage/AboutPage";
 import Main from "./pages/Main";
-import AboutPage from "./pages/AboutPage";
 import PageAdmin from "./pages/PageAdmin";
-import NewsPage from "./pages/News/NewsPage";
-import Header from "./components/Header";
+import NewsPage from "./pages/News";
+import Header from "./components/Header/Header";
 import { AuthProvider } from "reactfire";
 import { AuthContextProvider } from "./firebase/authContext";
 import { auth } from "./firebase/firebase";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer/Footer";
 
 
 

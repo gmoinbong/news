@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/Footer.module.scss';
+import styles from './Footer.module.scss';
 
 function Footer() {
   let year = new Date().getFullYear();

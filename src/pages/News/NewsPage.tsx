@@ -2,11 +2,11 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { deleteNews, getNews, NewsItem } from '../../utility/NewsApi';
 
 
-import Pagination from '../../utility/Pagination';
+import Pagination from '../../utility/Pagination/Pagination';
 import NotificationLoader from '../../components/NotificationLoader';
 import { useSigninCheck } from 'reactfire';
 
-import style from '../../styles/NewsPage.module.scss';
+import style from './NewsPage.module.scss';
 import '../../styles/fonts/font.css';
 
 const NewsList = lazy(() => import('./NewsList'))

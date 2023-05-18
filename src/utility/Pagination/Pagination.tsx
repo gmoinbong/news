@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
-import '../styles/Pagination.scss'
+import './Pagination.scss'
 interface Props {
   itemCount: number;
   itemsPerPage: number;

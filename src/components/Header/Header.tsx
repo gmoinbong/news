@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { Link, } from "react-router-dom";
 
 
 import { BiMenuAltRight, BiNews } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { RiTeamLine } from "react-icons/ri"
-import styles from "../styles/Header.module.scss";
-import { Link, } from "react-router-dom";
+
+import styles from "./Header.module.scss";
+
 interface Isize {
     width: number;
     height: number;

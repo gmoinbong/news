@@ -1,6 +1,5 @@
-import React from 'react';
-import { UserAuth } from '../../firebase/authContext';
-import '../../styles/Signin.scss';
+import { UserAuth } from '../../../firebase/authContext';
+import './Logout.scss';
 const Logout = () => {
   const { logout } = UserAuth();
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebase/firebase'
-import style from '../styles/NewsPage.module.scss'
+import style from '../pages/News/NewsPage.module.scss'
 interface Props {
   newsText: string;
   id: string;

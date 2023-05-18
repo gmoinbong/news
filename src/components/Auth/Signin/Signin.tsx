@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import '../../styles/Signin.scss'
+import './Signin.scss'
 
 import { useSigninCheck } from 'reactfire';
-import { UserAuth } from '../../firebase/authContext';
-import Logout from './Logout';
-import Account from './Account';
+import { UserAuth } from '../../../firebase/authContext';
+import Logout from '../Logout';
+import Account from '../Account';
 
 
 

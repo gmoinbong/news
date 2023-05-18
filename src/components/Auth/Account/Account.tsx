@@ -1,6 +1,6 @@
 import React from 'react';
-import { UserAuth } from '../../firebase/authContext';
-import '../../styles/Auth.scss';
+import { UserAuth } from '../../../firebase/authContext';
+import './Account.scss';
 const Account = () => {
   const { user } = UserAuth();
   return (

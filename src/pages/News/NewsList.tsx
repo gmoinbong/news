@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useSigninCheck } from 'reactfire';
 import EditNews from '../EditNews';
-import style from '../../styles/NewsPage.module.scss';
+import style from './NewsPage.module.scss';
 import { NewsItem } from '../../utility/NewsApi';
 import FormattedDate from '../../utility/FormattedDate';
 import NewsForm from './NewsForm';
-import Gallery from '../../components/Gallery';
+import Gallery from '../../components/Gallery/Gallery';
 
 interface Props {
   news: NewsItem[];

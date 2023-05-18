@@ -1,7 +1,7 @@
 import React from 'react';
 import ImageUploader from '../../utility/ImageUploader';
 import { handleFileSelect, submitNews } from '../../utility/NewsApi';
-import style from '../../styles/NewsPage.module.scss';
+import style from './NewsPage.module.scss';
 
 
 export type NewsFormProps = {

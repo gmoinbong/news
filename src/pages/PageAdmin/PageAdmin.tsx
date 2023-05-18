@@ -1,6 +1,6 @@
 import React from "react";
 
-import Signin from "../components/auth/Signin";
+import Signin from "../../components/Auth/Signin";
 
 
 const PageAdmin = () => {

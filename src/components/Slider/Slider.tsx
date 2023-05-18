@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
 import { useSwipeable } from "react-swipeable";
 
-import "../../../src/styles/Slider.scss";
+import "./Slider.scss";
 type Props = {
   children: React.ReactNode
   width?: number | string
