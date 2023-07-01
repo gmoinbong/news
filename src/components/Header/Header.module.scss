@@ -4,6 +4,7 @@ ul {
     list-style: none;
     padding: 0 !important;
     margin: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .header {
@@ -14,6 +15,7 @@ ul {
     padding: 0 1.5rem;
     position: sticky;
     z-index: 1;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
     @include breakpoint(md) {
         padding: 0 3rem;

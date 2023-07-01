@@ -48,9 +48,9 @@ const NewsList: React.FC<Props> = (props) => {
       <>
         {props.news.map(({ text, id, timestamp, imageURL, name, title }, index) => (
           <div className={style.newsItem} key={id}>
-            <h5>{title}</h5>
+            <h3 className={style.title}>{title}</h3>
             {renderNewsGallery(imageURL, name, index)}
-            <p>{text}</p>
+            <p className={style.text}>{text}</p>
             <FormattedDate timestamp={timestamp} />
             <EditNews newsText={text} id={id} />
             <button type="button" onClick={() => props.deleteNews(id)}>
@@ -78,7 +78,6 @@ const NewsList: React.FC<Props> = (props) => {
             <FormattedDate timestamp={timestamp} />
           </div>
         ))}
-
         {selectedImage >= 0 && (
           <div className={style.fullImage} onClick={() => setSelectedImage(-1)}>
             <img className={style.postImage} src={props.news[selectedImage].imageURL[0]} alt={props.news[selectedImage].name[0]} />

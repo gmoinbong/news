@@ -48,7 +48,7 @@ const Header = () => {
         <header className={styles.header}>
             <div className={styles.header__content}>
                 <Link to="/" className={styles.header__content__logo}>
-                    Головна
+                    Main
                 </Link>
                 <nav
                     className={`${styles.header__content__nav} ${menuOpen && size.width < 768 ? styles.isMenu : ""
@@ -57,12 +57,12 @@ const Header = () => {
                     <ul className={styles.page}>
                         <li >
                             <Link to="/news" onClick={menuToggleHandler} className={styles.info}>
-                                <BiNews className={styles.icon} /> Новини
+                                <BiNews className={styles.icon} /> News
                             </Link>
                         </li>
                         <li >
                             <Link to="/about" onClick={menuToggleHandler} className={styles.info}>
-                                <RiTeamLine className={styles.icon} />  Про нас
+                                <RiTeamLine className={styles.icon} />  About us
                             </Link>
                         </li>
                     </ul>

@@ -29,7 +29,7 @@ const EditNews: React.FC<Props> = ({ id }) => {
   return (
     <>
       <h5 className={style.titleChange} id="editLabel">Змінити новину</h5>
-      <form>
+      <form className={style.editForm}>
         <textarea className={style.editPost} onChange={handleOnChangeNews} value={newsText} />
       </form>
       <button type="button"

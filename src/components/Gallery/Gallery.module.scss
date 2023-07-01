@@ -1,19 +1,26 @@
 .galleryItem {
   margin-top: 10px;
   position: relative;
-  max-width: 278px;
-  width: 280px;
-  height: 120px;
   overflow: hidden;
 
 }
 
-.thumbnail {
+.gallery {
+  max-width: 800px;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
+.thumbnail {
+
+  width: 100%;
+  height: 100%;
+  max-width: 800px;
+  min-width: max-content;
+}
+
+.thumbnail img {
+  min-width: 300px;
+}
 
 .fullImage {
   max-width: 100%;
