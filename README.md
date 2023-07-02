@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# Sports News Hub
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Sports News Hub is a small web application that provides users with the latest sports news and updates. It is built using React and TypeScript, offering a user-friendly interface and a seamless browsing experience.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- News Details: Read in-depth articles with rich content, including images and relevant information.
 
-### `yarn start`
+- Skeleton Loading: Enhance user experience with skeleton loading placeholders while content is being fetched.
+- Responsive Design: Enjoy a consistent experience across various devices with responsive and mobile-friendly layouts.
+- Firebase Integration: Utilize Firebase and ReactFire for backend functionalities, including authentication and real-time data updates.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Installation
 
-### `yarn test`
+To install Sports News Hub, follow these steps:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone the repository: `gh repo clone your_username/sports-news-hub`
+2. Install the dependencies: `yarn install`
+3. Start the development server: `yarn start`
 
-### `yarn build`
+## Technologies Used
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Sports News Hub is built using the following technologies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Frontend: React, TypeScript, Sass, React Router DOM, React Icons, React Swipeable, React Content Loader
+- Backend: Firebase, ReactFire
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Screenshots
 
-### `yarn eject`
+![Main](https://github.com/gmoinbong/news/blob/master/screenshots/Main.png)
+![Adminpost](https://github.com/gmoinbong/news/blob/master/screenshots/adminpost.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Project Demo
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Check out the live demo of Sports News Hub at: [https://sports-news-hub-demo.com](https://news-517f9.web.app/)
