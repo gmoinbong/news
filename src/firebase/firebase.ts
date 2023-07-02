@@ -4,13 +4,12 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from 'firebase/storage';
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyCeHXPBeKWT-J1u4tabp8oeGPhNWNl0NBQ",
-  authDomain: "ring-bb297.firebaseapp.com",
-  projectId: "ring-bb297",
-  storageBucket: "ring-bb297.appspot.com",
-  messagingSenderId: "952024322592",
-  appId: "1:952024322592:web:b590e73ad83f9663a4e245",
-  measurementId: "G-8J0CMXYYMX"
+  apiKey: "AIzaSyAeStUOOr1CsAKVvlM3vlPCl7eo0V76NvI",
+  authDomain: "news-517f9.firebaseapp.com",
+  projectId: "news-517f9",
+  storageBucket: "news-517f9.appspot.com",
+  messagingSenderId: "147907557417",
+  appId: "1:147907557417:web:991667809f4b6160e60438"
 };
 
 const app = initializeApp(firebaseConfig);
